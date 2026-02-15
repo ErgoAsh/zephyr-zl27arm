@@ -1,0 +1,42 @@
+name: Build Zephyr Firmware
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: zephyrprojectrtos/ci:v0.26.6
+
+    env:
+      ZEPHYR_SDK_INSTALL_DIR: /opt/toolchains/zephyr-sdk-0.16.8
+      APP_NAME: zephyr-zl27arm
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.APP_NAME }}
+
+      - name: Initialize Zephyr
+        run: |
+          west init -l ${{ env.APP_NAME }}
+          west update --narrow
+          west zephyr-export
+
+      - name: Build
+        working-directory: ${{ env.APP_NAME }}
+        run: |
+          west build -p always -b stm32_min_dev/blue/stm32f103xb .
+
+      - name: Prepare Artifacts
+        run: |
+          mkdir -p artifacts
+          cp ${{ env.APP_NAME }}/build/zephyr/zephyr.elf artifacts/firmware.elf
+          cp ${{ env.APP_NAME }}/build/zephyr/zephyr.bin artifacts/firmware.bin
+          cp ${{ env.APP_NAME }}/build/zephyr/zephyr.hex artifacts/firmware.hex
+
+      - name: Upload Firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-firmware
+          path: artifacts/
