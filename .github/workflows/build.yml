@@ -27,7 +27,7 @@ jobs:
       - name: Build
         working-directory: ${{ env.APP_NAME }}
         run: |
-          west build -p always -b stm32_min_dev/blue/stm32f103xb .
+          west build -p always .
 
       - name: Prepare Artifacts
         run: |
