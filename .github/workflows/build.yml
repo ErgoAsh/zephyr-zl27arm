@@ -22,6 +22,7 @@ jobs:
           west init -l ${{ env.APP_NAME }}
           west update --narrow
           west zephyr-export
+          pip3 install -r zephyr/scripts/requirements.txt
 
       - name: Build
         working-directory: ${{ env.APP_NAME }}
