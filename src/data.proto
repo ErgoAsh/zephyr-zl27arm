@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message SensorData {
+    int32 uptime = 1;
+    float temperature = 2;
+    bool active = 3;
+}

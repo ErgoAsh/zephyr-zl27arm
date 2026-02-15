@@ -12,6 +12,7 @@ manifest:
           - cmsis_6
           - hal_stm32
           - segger
+          - nanopb
 
   self:
     path: zephyr-zl27arm
