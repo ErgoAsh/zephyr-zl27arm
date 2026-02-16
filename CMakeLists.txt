@@ -9,6 +9,6 @@ include(nanopb)
 
 target_include_directories(app PRIVATE src)
 target_sources(app PRIVATE
-        src/main_nanopb.c
+        src/main_minimal.c
 )
 zephyr_nanopb_sources(app src/data.proto)

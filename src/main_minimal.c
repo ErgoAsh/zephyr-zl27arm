@@ -10,6 +10,8 @@ static const struct gpio_dt_spec led =
 static const struct gpio_dt_spec button =
     GPIO_DT_SPEC_GET(DT_ALIAS(sw0), gpios);
 
+int is_led_enabled = false;
+
 int main() {
     if (!gpio_is_ready_dt(&led) || !gpio_is_ready_dt(&button)) {
         return 0;
